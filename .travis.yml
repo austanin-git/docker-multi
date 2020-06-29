@@ -17,7 +17,7 @@ after_success:
 # Log to the docker CLI
   - echo "#DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 # Push images to dockerhub
-  - docker push austanin/multi-client ./client
-  - docker push austanin/multi-nginx ./nginx
-  - docker push austanin/multi-server ./server
-  - docker push austanin/multi-worker ./worker
+  - docker push austanin/multi-client
+  - docker push austanin/multi-nginx
+  - docker push austanin/multi-server
+  - docker push austanin/multi-worker
