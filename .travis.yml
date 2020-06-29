@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker;
+
+before_install:
+  - docker build -t austanin/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true austanin/react-test npm test
+
+after_success:
+  - docker build -t austanin/multi-client ./client
+  - docker build -t austanin/multi-nginx ./nginx
+  - docker build -t austanin/multi-server ./server
+  - docker build -t austanin/multi-worker ./worker
+# Log to the docker CLI
+- echo "#DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+# Push images to dockerhub
+- docker push austanin/multi-client ./client
+- docker push austanin/multi-nginx ./nginx
+- docker push austanin/multi-server ./server
+- docker push austanin/multi-worker ./worker
